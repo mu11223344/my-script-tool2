@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداتي المفيدة</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .input-group {
+            margin: 20px 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            border-color: #667eea;
+            outline: none;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            text-align: right;
+            min-height: 50px;
+        }
+        
+        .error {
+            background: #ffe6e6;
+            border-left-color: #ff4757;
+            color: #d63031;
+        }
+        
+        .success {
+            background: #e6ffe6;
+            border-left-color: #00b894;
+            color: #00b894;
+        }
+        
+        .loading {
+            display: none;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 أداتي المفيدة</h1>
+        
+        <div class="input-group">
+            <label for="userInput">أدخل النص هنا:</label>
+            <textarea id="userInput" rows="4" placeholder="اكتب شيئاً..."></textarea>
+        </div>
+        
+        <div class="input-group">
+            <label for="optionSelect">اختر العملية:</label>
+            <select id="optionSelect">
+                <option value="uppercase">تحويل للأحرف الكبيرة</option>
+                <option value="lowercase">تحويل للأحرف الصغيرة</option>
+                <option value="count">عد الكلمات</option>
+                <option value="reverse">عكس النص</option>
+            </select>
+        </div>
+        
+        <button onclick="processData()">🎯 تنفيذ</button>
+        <button onclick="clearAll()">🧹 مسح الكل</button>
+        <button onclick="copyResult()">📋 نسخ النتيجة</button>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>جارٍ المعالجة...</p>
+        </div>
+        
+        <div class="result" id="result">
+            النتيجة ستظهر هنا...
+        </div>
+    </div>
+
+    <script>
+        // وظيفة المعالجة الرئيسية
+        function processData() {
+            const input = document.getElementById('userInput').value;
+            const option = document.getElementById('optionSelect').value;
+            const resultDiv = document.getElementById('result');
+            const loading = document.getElementById('loading');
+            
+            if (!input.trim()) {
+                showResult('يرجى إدخال نص للمعالجة!', 'error');
+                return;
+            }
+            
+            // إظهار Loading
+            loading.style.display = 'block';
+            resultDiv.innerHTML = '';
+            
+            // محاكاة معالجة (يمكنك استبدال هذا بكودك الفعلي)
+            setTimeout(() => {
+                loading.style.display = 'none';
+                
+                let result = '';
+                
+                switch(option) {
+                    case 'uppercase':
+                        result = input.toUpperCase();
+                        break;
+                    case 'lowercase':
+                        result = input.toLowerCase();
+                        break;
+                    case 'count':
+                        const words = input.trim().split(/\s+/);
+                        result = `عدد الكلمات: ${words.length}\nعدد الأحرف: ${input.length}`;
+                        break;
+                    case 'reverse':
+                        result = input.split('').reverse().join('');
+                        break;
+                    default:
+                        result = 'عملية غير معروفة';
+                }
+                
+                showResult(result, 'success');
+            }, 1500);
+        }
+        
+        function showResult(text, type = '') {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = text.replace(/\n/g, '<br>');
+            resultDiv.className = `result ${type}`;
+        }
+        
+        function clearAll() {
+            document.getElementById('userInput').value = '';
+            document.getElementById('result').innerHTML = 'النتيجة ستظهر هنا...';
+            document.getElementById('result').className = 'result';
+        }
+        
+        function copyResult() {
+            const resultText = document.getElementById('result').innerText;
+            if (resultText === 'النتيجة ستظهر هنا...') {
+                alert('لا توجد نتيجة للنسخ!');
+                return;
+            }
+            
+            navigator.clipboard.writeText(resultText).then(() => {
+                alert('تم نسخ النتيجة!');
+            }).catch(() => {
+                alert('فشل في النسخ');
+            });
+        }
+        
+        // إضافة اختصارات لوحة المفاتيح
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && event.key === 'Enter') {
+                processData();
+            }
+        });
+        
+        // رسالة ترحيب
+        window.onload = function() {
+            console.log('🎉 مرحباً! الأداة جاهزة للاستخدام');
+        };
+    </script>
+</body>
+</html>
